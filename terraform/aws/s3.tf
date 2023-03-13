@@ -139,3 +139,16 @@ resource "aws_s3_bucket" "logs" {
     yor_trace            = "01946fe9-aae2-4c99-a975-e9b0d3a4696c"
   })
 }
+
+resource "aws_s3_bucket" "data2" {
+  # bucket is public
+  # bucket is not encrypted
+  # bucket does not have access logs
+  # bucket does not have versioning
+  bucket        = "${local.resource_prefix.value}-data2"
+  force_destroy = true
+  tags = merge({
+    Name        = "${local.resource_prefix.value}-data"
+    Environment = local.resource_prefix.value
+    })
+}
