@@ -139,3 +139,18 @@ resource "aws_s3_bucket" "logs" {
     yor_trace            = "01946fe9-aae2-4c99-a975-e9b0d3a4696c"
   })
 }
+
+resource "aws_s3_bucket" "foo_icons" {
+
+  bucket = join("-", [local.prefix, "foo", "icons"])
+  tags = {
+    Name        = join("-", [local.prefix, "foo", "icons"])
+    Environment = var.environment
+  }
+}
+
+
+resource "aws_s3_bucket_acl" "icons_bucket_acl" {
+  bucket = aws_s3_bucket.foo_icons.id
+  acl    = "public-read"
+}
