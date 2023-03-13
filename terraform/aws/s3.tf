@@ -139,3 +139,24 @@ resource "aws_s3_bucket" "logs" {
     yor_trace            = "01946fe9-aae2-4c99-a975-e9b0d3a4696c"
   })
 }
+
+resource "aws_s3_bucket" "customer-data" {
+  # bucket is public
+  # bucket is not encrypted
+  # bucket does not have access logs
+  bucket        = "${local.resource_prefix.value}-customer-data"
+  acl    = "private"
+  force_destroy = true
+  versioning {
+    enabled = true
+  }
+  tags = merge({
+    Name        = "${local.resource_prefix.value}-customer-data"
+    Environment = local.resource_prefix.value
+    })
+}
+
+resource "aws_s3_bucket_acl" "icons_bucket_acl" {
+  bucket = aws_s3_bucket.custome-data.id
+  acl    = "public-read"
+}
