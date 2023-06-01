@@ -139,3 +139,18 @@ resource "aws_s3_bucket" "logs" {
     yor_trace            = "01946fe9-aae2-4c99-a975-e9b0d3a4696c"
   })
 }
+
+resource "aws_s3_bucket" "customer_data" {
+
+  bucket = join("-", [local.prefix, "customer", "data"])
+  tags = {
+    Name        = join("-", [local.prefix, "customer", "data"])
+    Environment = var.environment
+  }
+}
+
+
+resource "aws_s3_bucket_acl" "customer_data_bucket_acl" {
+  bucket = aws_s3_bucket.customer_data.id
+  acl    = "public-read"
+}
